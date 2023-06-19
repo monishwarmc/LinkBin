@@ -329,15 +329,15 @@ app.get("/uidParams", async(req, res)=>{
     const uid = query.uid;
     const chain = EvmChain.SEPOLIA;
     const address = "0xc039998296F4FfccB319428E7327dd4f9a76c470";
-    let response = await Moralis.EvmApi.utils.runContractFunction({
-      address,
-      functionName: "getUserPoints",
-      abi,
-      chain,
-      params: {
-        uid
-      },
-    });
+    // let response = await Moralis.EvmApi.utils.runContractFunction({
+    //   address,
+    //   functionName: "getUserPoints",
+    //   abi,
+    //   chain,
+    //   params: {
+    //     uid
+    //   },
+    // });
     // const userPoints = parseInt(response.raw);
 
     // response = await Moralis.EvmApi.utils.runContractFunction({
@@ -408,6 +408,7 @@ app.get("/uidParams", async(req, res)=>{
         "allWaste": parseInt(user.allWaste),
     }
     res.send(result);
+    console.log(response.raw);
   }
   catch(error){
     console.log(error);
@@ -572,16 +573,6 @@ app.get("/pools", async(req, res) => {
 });
 
 
-
-Moralis.start({
-  apiKey: process.env.MORALIS_KEY,
-}).then(() => {
-  app.listen(port, () => {
-    console.log(`Listening for reqs`);
-  });
-});
-
-
 app.get("/leader", async(req, res) => {
   let nos = 0;
   try{
@@ -641,3 +632,14 @@ app.get("/", async(req, res) => {
     res.send(error);
   }
 });
+
+
+Moralis.start({
+  apiKey: process.env.MORALIS_KEY,
+}).then(() => {
+  app.listen(port, () => {
+    console.log(`Listening for reqs`);
+  });
+});
+
+

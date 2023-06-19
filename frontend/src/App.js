@@ -1,6 +1,5 @@
 import { useAccount, useBalance, useContractRead, useDisconnect } from 'wagmi';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import UserRegister from './Components/UserRegister';
 import Wallet from './Components/Wallet';
 import CreateGiveawayPool from './Components/CreateGiveawayPool';
@@ -65,8 +64,7 @@ function App() {
   });
   async function getUid() {
     if(uidcon.isSuccess){
-      setUid(Number(uidcon.data._hex));
-      console.log(uidcon);
+      setUid(Number(uidcon.data));
     }
     else if(uidcon.isLoading){
       setUid('loading...');
@@ -111,6 +109,7 @@ function App() {
             setUserData={setUserData}
             isConnected={isConnected}
             api={api}
+            contract={contract}
             />
           </Tab>
           {uid===0 ?

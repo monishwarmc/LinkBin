@@ -1,29 +1,45 @@
 import React, { useEffect } from 'react';
-import axios from 'axios';
 import Bin from './Bin';
 import { Table, Loading } from '@web3uikit/core';
+import { useContractReads } from 'wagmi';
 
-function Profile({ uid, userData, setUserData, isConnected, api }) {
+function Profile({ uid, userData, setUserData, isConnected, contract }) {
   const zoom = 20;
-
+  const { data, isError, isLoading } = useContractReads({
+    contracts: [
+      {
+        ...contract,
+        functionName: 'users',
+        args:[uid]
+      },
+      {
+        ...contract,
+        functionName: 'getUserRank',
+        args:[uid]
+      },
+    ],
+  })
   async function getUser() {
-    const li = api + 'uidParams';
-    const resp = await axios.get(li, {
-      params: {
-        uid: uid
-      }
-    });
-    console.log(resp.data);
-    setUserData(resp.data);
+    if(!isError && !isLoading){
+      setUserData(data);
+    }
+    // const li = api + 'uidParams';
+    // const resp = await axios.get(li, {
+    //   params: {
+    //     uid: uid
+    //   }
+    // });
+    // console.log(resp.data);
+    // setUserData(resp.data);
   }
 
   useEffect(() => {
     if (!uid) return;
 
     getUser();
-  }, []);
+  }, [uid, isConnected, userData]);
 
-  if (!userData && isConnected) {
+  if (!userData && isConnected && isLoading) {
     // Render a loading state if userData is undefined
     return (
       <div style={{ padding: '19rem 39rem' }}>
@@ -34,20 +50,20 @@ function Profile({ uid, userData, setUserData, isConnected, api }) {
 
   return (
     <>
-      {userData && (
+      {userData && !isLoading && (
         <Table
           columnsConfig="6fr 9fr"
           data={[
-            ['userRank', userData.userRank],
-            ['userAddress', userData.userAddress],
-            ['uid', userData.uid],
-            ['latitude', userData.latitude],
-            ['longitude', userData.longitude],
-            ['points', userData.points],
-            ['totalWaste', userData.totalWaste],
-            ['rewards', (userData.rewards / 1e18).toFixed(2) + ' Link'],
-            ['allPoints', userData.allPoints],
-            ['allWaste', userData.allWaste]
+            ['userRank', Number(userData[1])],
+            ['userAddress', userData[0].userAddress],
+            ['uid', Number(userData[0].uid)],
+            ['latitude', Number(userData[0].latitude)],
+            ['longitude', Number(userData[0].longitude)],
+            ['points', Number(userData[0].points)],
+            ['totalWaste', Number(userData[0].totalWaste)],
+            ['rewards', (Number(userData[0].rewards) / 1e18).toFixed(2) + ' Link'],
+            ['allPoints', Number(userData[0].allPoints)],
+            ['allWaste', Number(userData[0].allWaste)]
           ]}
           header={[]}
           noPagination

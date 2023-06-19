@@ -35,11 +35,11 @@ function Wallet({isConnected, address, tokenBalance, uid, disconnect}) {
                     margin: '16px',
                     padding: '8px 12px'
                   }}
-                //textColor='rgba(60,0,255,0.6)'
+                //textColor='rgba(60,90,190,0.6)'
                 text={address}
                 isHidden={false}
                 />
-                <Button onClick={disconnect} type='button' text='disconnect wallet'/>
+                <Button onClick={disconnect} type='button' text='disconnect'/>
             </>
             :
                 <Button onClick={connect} type='button' text='connect wallet'/>}
