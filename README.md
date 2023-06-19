@@ -52,7 +52,7 @@ npm start
 ### to run backend
 
 
-get your moralis api key in the dotenv(.env) file of backend folder
+get your moralis api key in the dotenv(.env) file of the backend folder
 
 from the root directory
 
