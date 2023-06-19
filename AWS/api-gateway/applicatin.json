@@ -1,0 +1,7 @@
+{
+    "ConsistentRead": true,
+    "Key": {
+         "Distance": {"S": "Distance"}
+    },
+    "TableName": "esp8266"
+ }

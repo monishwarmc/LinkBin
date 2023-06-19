@@ -1,0 +1,142 @@
+.App {
+  text-align: left;
+  min-height: 100vh;
+  color: white;
+}
+
+.card{
+  width: 19vw;
+}
+
+.header {
+  width: calc(100vw - 100px);
+  display: flex;
+  justify-content: flex-start;
+  background-color: rgb(33, 33, 38);
+  border-bottom: 1px solid rgb(121, 121, 121);
+  padding: 5px 50px;
+  align-items: center;
+}
+
+.title {
+  display: flex;
+  height: 60px;
+  align-items: center;
+  gap: 25px;
+}
+
+.walletInputs {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  align-items: center;
+  gap: 25px;
+}
+
+.content {
+  height: 100%;
+  margin: 0;
+  padding: 100px;
+  background: linear-gradient(180deg, rgba(142, 211, 182, 0.3) 0%, rgba(36,20,0,0) 50%);
+}
+
+.walletInfo {
+  display: flex;
+  justify-content: space-between;
+}
+
+.totalValue {
+  width: 350px;
+  height: 150px;
+  padding: 10px 30px; 
+  border-radius: 20px;
+  background-color: rgba(33, 33, 38, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.TabList {
+  font-size: 30px;
+  font-weight: bold;
+  margin: 20px 0px;
+  align-items: center;
+  display: flex;
+  gap: 20px;
+  text-align: center;
+}
+
+.filters {
+  display: flex;
+  gap: 20px;
+  margin: 30px 0px;
+}
+
+.nftInfo {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  gap: 5px;
+  background-color: rgb(42, 42, 47);
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.nftList {
+  display: flex;
+  justify-content: flex-start;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.tab{
+  align-items: center;
+}
+
+.lvl{
+  width: 80vw;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-color infinite 6s ease;
+    margin: 0 1.3vw;
+  }
+}
+
+.head{
+  font-size: 69px;
+}
+
+
+.App-logo {
+  border-radius: 369px;
+  background-color: #61dafb;
+  width: 100%;
+  height: 6rem;
+  width: 6rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 25px;
+}
+
+@keyframes App-logo-color {
+  0% {
+    background-color: rgba(8, 186, 245, 0.699);
+  }
+  25% {
+    background-color: rgba(137, 250, 137, 0.699);
+  }
+  50%{
+    background-color: rgba(253, 136, 136, 0.699);
+  }
+  75%{
+    background-color: rgba(245, 245, 135, 0.699);
+  }
+  100%{
+    background-color: rgb(168, 167, 167, 0.699);
+  }
+}
