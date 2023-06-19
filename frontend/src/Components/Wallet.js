@@ -5,9 +5,8 @@ import { Button, Badge, Credentials} from '@web3uikit/core';
 import logo from '../assets/linkbin-veri-logo.png';
 
 
-function Wallet({isConnected, address, tokenBalance, uid}) {
+function Wallet({isConnected, address, tokenBalance, uid, disconnect}) {
     const uidT = "uid:"+uid;
-    const bal = tokenBalance+"~link"
     const {connect} = useConnect({
         connector: new MetaMaskConnector(),
     });
@@ -18,15 +17,16 @@ function Wallet({isConnected, address, tokenBalance, uid}) {
                 textDecoration:'0',
                 color: 'blue',
                 fontSize:'3.9rem',
-                margin: '0.6vh 16vw',
-                borderRadius: '1rem',
+                margin: '0.6vh 1vw',
+                borderRadius: '0.6rem',
                 padding:'0.3vh 0.6vw',
                 backgroundColor: 'rgba(30, 60, 90, 0.7)',
             }}>LinkBin</h1>
             <div className='walletInputs'>
+
             {isConnected ? <>
                 <Badge text={uidT}  />
-                <Badge text={bal}  />
+                <Badge text={tokenBalance}  />
                 <Credentials
                 customize={{
                     backgroundColor: 'darkblue',
@@ -39,7 +39,9 @@ function Wallet({isConnected, address, tokenBalance, uid}) {
                 text={address}
                 isHidden={false}
                 />
-            </>:
+                <Button onClick={disconnect} type='button' text='disconnect wallet'/>
+            </>
+            :
                 <Button onClick={connect} type='button' text='connect wallet'/>}
             </div>
         </div>

@@ -1,4 +1,4 @@
-import { useAccount } from 'wagmi';
+import { useAccount, useBalance, useContractRead, useDisconnect } from 'wagmi';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import UserRegister from './Components/UserRegister';
@@ -15,10 +15,12 @@ import { TabList, Tab } from "@web3uikit/core";
 import UserHistory from './Components/UserHistory';
 import ContractLogs from './Components/ContractLogs';
 import LeaderBoard from './Components/LeaderBoard';
+import abi from './abi.json';
 
 function App() {
 
   const {address, isConnected} = useAccount();
+  const {disconnect} = useDisconnect();
   const [userData, setUserData] = useState();
   const [tokenBalance, setTokenBalance] = useState();
   const contractAddress = '0xc039998296F4FfccB319428E7327dd4f9a76c470';
@@ -28,25 +30,56 @@ function App() {
   const owner = '0xdbb63C9be17cE82713849f9680Bb08Ca48893610';
   const isOwner = address === owner;
 
-  async function getBalance() {
-    const li = api + 'balance'
-    const response = await axios.get(li, {
-      params:{
-        address: address,
-      }
-    });
-    setTokenBalance(response.data.balance);
-  };
+  const contract = {
+    address: contractAddress,
+    abi: abi,
+  }
 
+  const { data, isError, isLoading } = useBalance({
+    address: address,
+    token: '0x779877A7B0D9E8603169DdbD7836e478b4624789',
+  })
+
+  async function getBalance(){
+  if (isLoading) return <div>Fetching balance…</div>
+  if (isError) return <div>Error fetching balance</div>
+  setTokenBalance(parseFloat(data?.formatted).toFixed(2) + '~' + data?.symbol);
+  console.log(data?.formatted);
+}
+
+  // async function getBalance() {
+  //   const li = api + 'balance'
+  //   const response = await axios.get(li, {
+  //     params:{
+  //       address: address,
+  //     }
+  //   });
+  //   setTokenBalance(response.data.balance);
+  // };
+
+  const uidcon = useContractRead({
+      address: contractAddress,
+      abi: abi,
+      functionName: 'addressToUid',
+      args: [address],
+  });
   async function getUid() {
-    const li = api + 'uid';
-    const resp = await axios.get(li, {
-      params:{
-        userAddress: address,
-      }
-    });
-    setUid(resp.data.uid);
-    console.log(resp.data.uid);
+    if(uidcon.isSuccess){
+      setUid(Number(uidcon.data._hex));
+      console.log(uidcon);
+    }
+    else if(uidcon.isLoading){
+      setUid('loading...');
+    }
+
+    // const li = api + 'uid';
+    // const resp = await axios.get(li, {
+    //   params:{
+    //     userAddress: address,
+    //   }
+    // });
+    // setUid(resp.data.uid);
+    // console.log(resp.data.uid);
   };
 
   useEffect(() => {
@@ -54,7 +87,7 @@ function App() {
     
     getBalance();
     getUid();
-  }, [isConnected, address]);
+  }, [isConnected, address, uidcon.isLoading]);
 
 
 
@@ -65,6 +98,7 @@ function App() {
       isConnected={isConnected}
       address={address}
       tokenBalance={tokenBalance}
+      disconnect={disconnect}
       />
 
       <div className='content'>
